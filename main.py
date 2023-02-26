@@ -17,8 +17,7 @@ from datetime import datetime, timezone, timedelta
 # this needs to run only once to load the model into memory
 READER = easyocr.Reader(["en"])
 
-LOCAL_TZ = datetime.now(timezone.utc).astimezone().tzinfo
-CURRENT_YEAR = datetime.now(tz=LOCAL_TZ).year
+CURRENT_YEAR = datetime.now().year
 
 
 @dataclass
@@ -196,8 +195,8 @@ def find_trash_type(day_cutout_rgb: cv2.Mat) -> TrashType:
 
 
 def build_event(day_num: int, month_num: int, type: TrashType) -> ics.Event:
-    begin = datetime(CURRENT_YEAR, month_num, day_num, tzinfo=LOCAL_TZ)
-    end = datetime(CURRENT_YEAR, month_num, day_num, 23, 59, 59, tzinfo=LOCAL_TZ)
+    begin = datetime(CURRENT_YEAR, month_num, day_num)
+    end = datetime(CURRENT_YEAR, month_num, day_num, 23, 59, 59)
 
     event = ics.Event(
         name=type.event_name(),
